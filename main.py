@@ -1,4 +1,6 @@
-import barcode.itf as itf
+from barcode import ITF
+from barcode.writer import SVGWriter
+
 
 class Barcode:
     def __init__(self, number : int):
@@ -11,10 +13,16 @@ class Barcode:
         self.number = number
 
     def generate(self):
-        itf.ITF(str(self.number))
+        with open("code.svg", 'wb') as f:
+            ITF(str(self.number), writer=SVGWriter()).write(f)
 
 def main():
-    Barcode(123).generate()
+    try:
+        num = int(input("Podaj numer: "))
+    except ValueError:
+        print("Nieprawidłowy numer")
+    Barcode(num).generate()
+    print("Kod zapisany w pliku code.svg")
 
 
 # Press the green button in the gutter to run the script.
